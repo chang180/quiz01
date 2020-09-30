@@ -12,8 +12,8 @@
     <div class="list-group list-group-item"></div>
     <div class="list-group list-group-item"></div>
     <div class="list-group list-group-item"></div>
+    <div class="border text-center my-2">訪客人數：</div>
 </div>
-<div class="border text-center my-2">訪客人數：</div>
 <div class="main col-9">主內容區</div>
 @endsection
 
