@@ -14,7 +14,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/','home');
-Route::view('/admin','admin');
+Route::view('/admin','backend.title');
+Route::get('/admin/(module)',function($module){
+    switch($module){
+        case "title":
+return view('backend.title');
+break;
+case "ad":
+    return view('backend.ad');
+        break;
+    }
+});
+// Route::prefix('admin')->group(function(){
+//     Route::view('/','backend.title');
+//     Route::view('/title','backend.title');
+//     Route::view('/ad','backend.ad');
+// });
 
 
 // 舊寫法
