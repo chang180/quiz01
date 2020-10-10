@@ -14,7 +14,7 @@
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
                 href="/admin/bottom">頁尾版權管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
-                href="/admin/news">最新消息管懂</a></div> 
+                href="/admin/news">最新消息管理</a></div> 
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
                 href="/admin/admin">管理者管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
