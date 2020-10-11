@@ -17,7 +17,7 @@ class CreateNewsTable extends Migration
             $table->id();
             $table->text('text');
             $table->boolean('sh')->default(1);
-            $table->softDeletes('deleted_at',0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

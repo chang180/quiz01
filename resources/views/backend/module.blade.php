@@ -21,7 +21,7 @@
                 @isset($rows)
                 @foreach($rows as $row)
                 <tr>
-                <td><img src="{{ asset('img/'.$row->img) }}" style="width:300px;height:30px;"></td>
+                <td><img src="{{ asset('storage/'.$row->img) }}" style="width:300px;height:30px;"></td>
                 <td>{{ $row->text }}</td>
                     <td width="10%"><button class="btn btn-success btn-sm" data-id={{ $row->id }}>
                         @if($row->sh==1) 顯示

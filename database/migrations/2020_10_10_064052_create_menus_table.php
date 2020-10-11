@@ -19,7 +19,7 @@ class CreateMenusTable extends Migration
             $table->string('href',120);
             $table->unsignedInteger('parent');
             $table->boolean('sh')->default(1);
-            $table->softDeletes('deleted_at',0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
