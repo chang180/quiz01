@@ -25,26 +25,35 @@ use App\Http\Controllers\MenuController;
 //module的寫法
 Route::view('/', 'home');
 Route::redirect('/admin', '/admin/title');
-Route::prefix('admin')->group(function(){
+Route::prefix('admin')->group(function () {
     //get
-Route::get('/title',[TitleController::class,'index']);
-Route::get('/mvim',[MvimController::class,'index']);
-Route::get('/ad',[AdController::class,'index']);
-Route::get('/image',[ImageController::class,'index']);
-Route::get('/total',[TotalController::class,'index']);
-Route::get('/bottom',[BottomController::class,'index']);
-Route::get('/admin',[AdminController::class,'index']);
-Route::get('/news',[NewsController::class,'index']);
-Route::get('/menu',[MenuController::class,'index']);
+    Route::get('/title', [TitleController::class, 'index']);
+    Route::get('/mvim', [MvimController::class, 'index']);
+    Route::get('/ad', [AdController::class, 'index']);
+    Route::get('/image', [ImageController::class, 'index']);
+    Route::get('/total', [TotalController::class, 'index']);
+    Route::get('/bottom', [BottomController::class, 'index']);
+    Route::get('/admin', [AdminController::class, 'index']);
+    Route::get('/news', [NewsController::class, 'index']);
+    Route::get('/menu', [MenuController::class, 'index']);
 
-//post
-Route::post('/title',[TitleController::class,'store']);
-Route::post('/mvim',[MvimController::class,'store']);
-Route::post('/ad',[AdController::class,'store']);
-Route::post('/image',[ImageController::class,'store']);
-Route::post('/admin',[AdminController::class,'store']);
-Route::post('/news',[NewsController::class,'store']);
-Route::post('/menu',[MenuController::class,'store']);
+    //post
+    Route::post('/title', [TitleController::class, 'store']);
+    Route::post('/mvim', [MvimController::class, 'store']);
+    Route::post('/ad', [AdController::class, 'store']);
+    Route::post('/image', [ImageController::class, 'store']);
+    Route::post('/admin', [AdminController::class, 'store']);
+    Route::post('/news', [NewsController::class, 'store']);
+    Route::post('/menu', [MenuController::class, 'store']);
+
+    //update
+    Route::patch("/title/{id}", [TitleController::class, 'update']);
+    
+    //delete
+    Route::delete("/title/{id}", [TitleController::class, 'destroy']);
+
+    //show
+    Route::patch("/title/sh/{id}",[TitleController::class, 'display']);
 });
 
 // Route::get('admin', function ($module) {
@@ -82,20 +91,23 @@ Route::post('/menu',[MenuController::class,'store']);
 
 //modals
 
-Route::get("/modals/addTitle",[TitleController::class,'create']);
-Route::get("/modals/addAd",[AdController::class,'create']);
-Route::view("/modals/addImage",'modals.base_modal',['modal_header'=>'新增校園映像圖片']);
+Route::get("/modals/addTitle", [TitleController::class, 'create']);
+Route::get("/modals/addAd", [AdController::class, 'create']);
+Route::view("/modals/addImage", 'modals.base_modal', ['modal_header' => '新增校園映像圖片']);
 
-
-// 使用 group 的寫法
-// Route::prefix('admin')->group(function(){
-//     Route::view('/','backend.title');
-//     Route::view('/title','backend.title');
-//     Route::view('/ad','backend.ad');
-// });
-
-
-// 舊寫法
-// Route::view('/', function () {  
-//     return view('welcome');
-// });
+//edit
+Route::get("/modals/title/{id}", [TitleController::class, 'edit']);
+                                        
+                                        
+                                        // 使用 group 的寫法
+                                        // Route::prefix('admin')->group(function(){
+                                            //     Route::view('/','backend.title');
+                                            //     Route::view('/title','backend.title');
+                                            //     Route::view('/ad','backend.ad');
+                                            // });
+                                            
+                                            
+                                            // 舊寫法
+                                            // Route::view('/', function () {  
+                                                //     return view('welcome');
+                                                // });
