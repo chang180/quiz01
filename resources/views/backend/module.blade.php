@@ -70,10 +70,12 @@
                         </tr>
                     @endif
                     @endisset
+                    @isset($all)
+                    <td>
+                        {{ $all->links() }}
+                    </td>
+                    @endisset
                 </table>
-                @isset($all)
-                {{ $all->links() }}
-                @endisset
             </div>
         </div>
 @endsection
