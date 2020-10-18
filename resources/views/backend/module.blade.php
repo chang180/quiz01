@@ -8,8 +8,11 @@
         <button class="col-4 btn btn-light border py-3 text-center">管理登出</button>
         <div class="border w-100 p-1" style="height:500px;">
             <h5 class="text-center border-bottom py-3">
-                <button class="btn btn-sm btn-primary float-left" id="addRow">新增</button>
-                {{ $header }}</h5>
+                @if ($module != 'Total' && $module != 'Bottom')
+                    <button class="btn btn-sm btn-primary float-left" id="addRow">新增</button>
+                @endif
+                {{ $header }}
+            </h5>
             <table class="table border-none text-center">
                 <tr>
                     {{-- <td>網站標題</td>
@@ -19,13 +22,16 @@
                     <td width="10%">操作</td> --}}
                     {{-- 神奇的部份 --}}
                     @isset($cols)
-                        @foreach ($cols as $col)
-                            <td width="{{ $col }}">{{ $col }}</td>
-                        @endforeach
+                        @if ($module != 'Total' && $module != 'Bottom')
+                            @foreach ($cols as $col)
+                                <td width="{{ $col }}">{{ $col }}</td>
+                            @endforeach
+                        @endif
                     @endisset
 
                 </tr>
                 @isset($rows)
+                @if($module != 'Total' && $module != 'Bottom')
                     @foreach ($rows as $row)
                         {{-- <tr>
                             <td><img src="{{ asset('storage/' . $row->img) }}" style="width:300px;height:30px;"></td>
@@ -56,6 +62,13 @@
                             @endforeach
                         </tr>
                     @endforeach
+                    @else
+                    <tr>
+                        <td> {{ $cols[0] }} </td>
+                        <td> {{ $rows[0]['text'] }} </td>
+                        <td> @include("layouts.button",$rows[1]) </td>
+                    </tr>
+                    @endif
                 @endisset
             </table>
         </div>

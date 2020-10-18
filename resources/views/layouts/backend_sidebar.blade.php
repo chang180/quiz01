@@ -6,9 +6,9 @@
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
                 href="/admin/ad">動態文字廣告管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
-                href="/admin/mvim">校園映像圖片管理</a></div>
+                href="/admin/image">校園映像圖片管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
-                href="/admin/image">動畫圖片管理</a></div>
+                href="/admin/mvim">動畫圖片管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
                 href="/admin/total">進站人數管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
