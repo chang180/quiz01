@@ -10,7 +10,8 @@ class ImageController extends Controller
     //
     public function index()
     {
-        $all = Image::all();
+        // $all = Image::all();
+        $all=Image::paginate(4);
         // dd($all);
         $cols=['校園映像圖片','顯示','刪除','操作',];
         $rows=[];
@@ -58,6 +59,7 @@ class ImageController extends Controller
             'module'=>'Image',
             'cols'=>$cols,
             'rows'=>$rows,
+            'all'=>$all,
         ];
         return view('backend.module', $view);
         
