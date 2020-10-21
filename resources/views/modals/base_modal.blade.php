@@ -36,11 +36,16 @@
                                               @include('layouts.input',$row)
                                               @break
                                               @case('textarea')
+                                              @include('layouts.textarea',$row)
                                               @break
                                               @case('img')
                                               @include('layouts.img',$row)
                                               @break
-
+                                              @case('embed')
+                                              @include('layouts.embed',$row)
+                                              @break
+                                              @default
+                                        {{ $row['text'] }}
                                           @endswitch
                                       </td>
                                   </tr>

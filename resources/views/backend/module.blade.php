@@ -6,7 +6,7 @@
     <div class="main col-9 p-0 d-flex flex-wrap align-items-start">
         <div class="col-8 border py-3 text-center">後台管理區</div>
         <button class="col-4 btn btn-light border py-3 text-center">管理登出</button>
-        <div class="border w-100 p-1" style="height:500px;">
+        <div class="border w-100 p-1" style="height:500px;overflow:auto">
             <h5 class="text-center border-bottom py-3">
                 @if ($module != 'Total' && $module != 'Bottom')
                     <button class="btn btn-sm btn-primary float-left" id="addRow">新增</button>
@@ -55,8 +55,14 @@
                                             @case('button')
                                             @include('layouts.button',$item)
                                             @break
+                                            @case('embed')
+                                            @include('layouts.embed',$item)
+                                            @break
+                                            @case('textarea')
+                                            @include('layouts.textarea',$item)
+                                            @break
                                             @default
-                                            {{ $item['text'] }}
+                                            {!! nl2br($item['text']) !!}
                                         @endswitch
                                     </td>
                                 @endforeach
@@ -69,15 +75,15 @@
                             <td> @include("layouts.button",$rows[1]) </td>
                         </tr>
                     @endif
-                    @endisset
-                    @isset($all)
+                @endisset
+                @isset($all)
                     <td>
                         {{ $all->links() }}
                     </td>
-                    @endisset
-                </table>
-            </div>
+                @endisset
+            </table>
         </div>
+    </div>
 @endsection
 
 @section('script')
@@ -88,51 +94,78 @@
             }
         });
         $('#addRow').on("click", function() {
-            $.get("/modals/add{{ $module }}", function(modal) {
-                $("#modal").html(modal)
-                $("#baseModal").modal("show")
+                @isset($menu_id)
+                    $.get("/modals/add{{ $module }}/{{ $menu_id }}", function(modal) {
+                        $("#modal").html(modal)
+                        $("#baseModal").modal("show")
 
-                $("#baseModal").on("hidden.bs.modal", function() {
-                    $("#baseModal").modal("dispose")
-                    $("#modal").html("")
+                        $("#baseModal").on("hidden.bs.modal", function() {
+
+                            $("#baseModal").modal("dispose")
+                            $("#modal").html("")
+                        })
+                    })
+
+                @else
+                    $.get("/modals/add{{ $module }}", function(modal) {
+                        $("#modal").html(modal)
+                        $("#baseModal").modal("show")
+
+                        $("#baseModal").on("hidden.bs.modal", function() {
+                            $("#baseModal").modal("dispose")
+                            $("#modal").html("")
+                        })
+                    })
+                    @endif
+                }) 
+
+            $(".edit").on("click", function() {
+                let id = $(this).data('id');
+                $.get(`/modals/{{ strtolower($module) }}/${id}`, function(modal) {
+                    $("#modal").html(modal)
+                    $("#baseModal").modal("show")
+
+                    $("#baseModal").on("hidden.bs.modal", function() {
+                        $("#baseModal").modal("dispose")
+                        $("#modal").html("")
+                    })
                 })
             })
-        })
 
-        $(".edit").on("click", function() {
-            let id = $(this).data('id');
-            $.get(`/modals/{{ strtolower($module) }}/${id}`, function(modal) {
-                $("#modal").html(modal)
-                $("#baseModal").modal("show")
+            $(".delete").on('click', function() {
+                let id = $(this).data('id')
+                let _this = $(this)
+                $.ajax({
+                    type: 'delete',
+                    url: `/admin/{{ strtolower($module) }}/${id}`,
+                    success: function() {
+                        _this.parents("tr").remove()
 
-                $("#baseModal").on("hidden.bs.modal", function() {
-                    $("#baseModal").modal("dispose")
-                    $("#modal").html("")
+                    }
                 })
             })
-        })
 
-        $(".delete").on('click', function() {
-            let id = $(this).data('id')
-            $.ajax({
-                type: 'delete',
-                url: `/admin/{{ strtolower($module) }}/${id}`,
-                success: function() {
-                    location.reload()
-                }
+            $(".show").on('click', function() {
+                let id = $(this).data('id')
+                let _this = $(this)
+                $.ajax({
+                    type: 'patch',
+                    url: `/admin/{{ strtolower($module) }}/sh/${id}`,
+                    success: function() {
+                        if (_this.text == '顯示') {
+                            _this.text('隱藏')
+                        } else {
+                            _this.text('顯示')
+                        }
+
+                    }
+                })
             })
-        })
 
-        $(".show").on('click', function() {
-            let id = $(this).data('id')
-            $.ajax({
-                type: 'patch',
-                url: `/admin/{{ strtolower($module) }}/sh/${id}`,
-                success: function() {
-                    location.reload()
-                }
+            $(".sub").on('click', function() {
+                let id = $(this).data('id')
+                location.href = `/admin/submenu/${id}`
             })
-        })
 
-    </script>
-@endsection
+        </script>
+    @endsection
