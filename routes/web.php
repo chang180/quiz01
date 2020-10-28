@@ -26,6 +26,8 @@ use App\Http\Controllers\HomeController;
 
 //module的寫法
 Route::get('/',[HomeController::class,'index']);
+Route::get('news',[NewsController::class,'list']);
+Route::get('login',[AdminController::class,'showLoginForm']);
 
 
 Route::redirect('/admin', '/admin/title');
