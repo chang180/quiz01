@@ -4,7 +4,7 @@
     <div class="menu col-3">
         <div class="text-center py-2 border-bottom my-1">主選單區</div>
         @isset($menus)
-            <ul class="list-group">
+            <ul class="list-group h-75">
                 @foreach ($menus as $menu)
                     <li class="list-group list-group-item-action py-1 bg-warning menu">
                         <a href="{{ $menu->href }}">
@@ -22,8 +22,12 @@
                 @endforeach
             </ul>
         @endisset
+        <div class="viewer mt-5 text-center">
+            進站總人數：{{ $total }}
+        </div>
     </div>
     <div class="main col-6">
+        <marquee>{{ $ads }}</marquee>
         @yield('center')
     </div>
     <div class="right col-3">
@@ -64,7 +68,7 @@
                 if (idx >= p && idx <= p + 2) {
                     $(dom).show()
                 }
-            })
+            }) 
 
         })
 
@@ -77,6 +81,28 @@
                 $(this).children('.subs').addClass('d-none');
             }
         );
+
+        $(".mv").eq(0).removeClass('d-none')
+        let mvNum=$(".mv").length
+let now=0
+
+        setInterval(() => {
+            ++now
+            $(".mv").addClass('d-none')
+            now=now % mvNum
+            $(".mv").eq(now).removeClass('d-none')
+
+        }, 3000);
+
+        $(".news").hover(
+            function(){
+$(this).children('div').removeClass('d-none')
+},
+function(){
+    $(this).children('div').addClass('d-none')
+
+            }
+        )
 
     </script>
 @endsection

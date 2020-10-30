@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <div class="header">
-        <img src="{{ asset('storage/'.$title->img) }}" title="{{$title->text}}" class="w-100">
+        <a href="/"><img src="{{ asset('storage/'.$title->img) }}" title="{{$title->text}}" class="w-100"></a>
         </div>
         <div class="main d-flex" style="height:568px">
             @yield("main")
