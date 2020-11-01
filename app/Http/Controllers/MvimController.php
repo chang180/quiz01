@@ -10,7 +10,7 @@ class MvimController extends Controller
     //
     public function index()
     {
-        $all = Mvim::all();
+        $all = Mvim::paginate(3);
         // dd($all);
         $cols=['動畫圖片','顯示','刪除','操作',];
         $rows=[];
@@ -57,6 +57,7 @@ class MvimController extends Controller
         $this->view['module']='Mvim';
         $this->view['cols']=$cols;
         $this->view['rows']=$rows;
+        $this->view['all']=$all;
         return view('backend.module', $this->view);
         
     }

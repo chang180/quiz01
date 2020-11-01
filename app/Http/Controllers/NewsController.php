@@ -10,12 +10,13 @@ class NewsController extends HomeController
     //
 public function list(){
     parent::sideBar();
+    $this->view['news']=News::where('sh',1)->paginate(5);
     return view('news',$this->view);
 }
 
     public function index()
     {
-        $all = News::all();
+        $all = News::paginate(3);
         // dd($all);
         $cols = ['最新消息內容', '顯示', '編輯', '刪除',];
         $rows = [];
@@ -61,6 +62,8 @@ public function list(){
         $this->view['module']='News';
         $this->view['cols']=$cols;
         $this->view['rows']=$rows;
+        $this->view['all']=$all;
+                // $this->view['paginate']=$all->paginate(3);
         return view('backend.module', $this->view);
     }
 

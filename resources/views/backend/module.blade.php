@@ -76,12 +76,18 @@
                         </tr>
                     @endif
                 @endisset
-                @isset($all)
-                    <td>
-                        {{ $all->links() }}
-                    </td>
-                @endisset
             </table>
+            @isset($all)
+                <td>
+                    {{ $all->links() }}
+                </td>
+            @endisset
+{{-- @switch($module)
+@case('Image')
+@case('News')
+{{ $paginate }}
+@break
+@endswitch --}}
         </div>
     </div>
 @endsection

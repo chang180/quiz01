@@ -31,7 +31,7 @@
         @yield('center')
     </div>
     <div class="right col-3">
-        <button class="btn btn-primary py-3 w-100">管理登入</button>
+        <a href="/login" class="btn btn-primary py-3 w-100 my-2">管理登入</a>
         <div class="text-center py-2 border-bottom my-1">校園映像</div>
         <div class="up"></div>
         @isset($images)

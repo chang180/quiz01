@@ -9,13 +9,14 @@
     <title>科技大學校園資訊系統</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-        <a href="/"><img src="{{ asset('storage/'.$title->img) }}" title="{{$title->text}}" class="w-100"></a>
+        <a href="/" title="{{ $title->text }}"><img src="{{ asset('storage/'.$title->img) }}" title="{{$title->text}}" class="w-100"></a>
         </div>
         <div class="main d-flex" style="height:568px">
             @yield("main")
