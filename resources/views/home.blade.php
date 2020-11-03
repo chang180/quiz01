@@ -31,7 +31,12 @@
         @yield('center')
     </div>
     <div class="right col-3">
+        @auth
+        <a href="/admin" class="btn btn-success py-3 w-100 my-2">返回管理 ({{ $user->acc }}) </a>
+        @endauth
+        @guest
         <a href="/login" class="btn btn-primary py-3 w-100 my-2">管理登入</a>
+        @endguest
         <div class="text-center py-2 border-bottom my-1">校園映像</div>
         <div class="up"></div>
         @isset($images)

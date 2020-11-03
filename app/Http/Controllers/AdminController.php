@@ -4,60 +4,93 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
+use Hash;
 
 class AdminController extends HomeController
 {
     //
-    public function showLoginForm(){
+public function logout(){
+    Auth::logout();
+    return redirect('/login');
+}
+
+    public function showLoginForm()
+    {
         parent::sideBar();
-        return view('login',$this->view);
+        return view('login', $this->view);
+    }
+
+    public function login(Request $res)
+    {
+        $user = [
+            'acc' => $res->input('acc'),
+            'password' => $res->input('pw')
+        ];
+        if(Auth::attempt($user)){
+            return redirect('/admin');
+        }else{
+            return redirect('/login')->with('error','帳號或密碼錯誤');
+        }
+
+
+        // $acc = $res->input('acc');
+        // $pw = $res->input('pw');
+        // // dd($acc,$pw);
+        // $check = Admin::where('acc', $acc)->where('pw', $pw)->count();
+        // // dd($check);
+        // if ($check) {
+        //     return redirect('/admin')->with('admin', '登入成功');
+        // } else {
+
+        //     return redirect('/login')->with('error', '帳號或密碼錯誤');
+        // }
     }
 
     public function index()
     {
         $all = Admin::all();
-        $cols=['帳號','密碼','刪除','操作',];
-        $rows=[];
+        $cols = ['帳號', '密碼', '刪除', '操作',];
+        $rows = [];
 
-        foreach($all as $a){
-            $tmp=[
+        foreach ($all as $a) {
+            $tmp = [
                 [
-                    'tag'=>'',
-                    'text'=> $a->acc,
+                    'tag' => '',
+                    'text' => $a->acc,
                 ],
                 [
-                    'tag'=>'',
-                    'text'=>str_repeat("*",strlen($a->pw)),
+                    'tag' => '',
+                    'text' => str_repeat("*", strlen($a->pw)),
                 ],
                 [
-                    'tag'=>'button',
-                    'type'=>'button',
-                    'btn_color'=>'btn-danger',
-                    'action'=>'delete',
-                    'id'=>$a->id,
-                    'text'=>'刪除',
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'btn_color' => 'btn-danger',
+                    'action' => 'delete',
+                    'id' => $a->id,
+                    'text' => '刪除',
                 ],
                 [
-                    'tag'=>'button',
-                    'type'=>'button',
-                    'btn_color'=>'btn-info',
-                    'action'=>'edit',
-                    'id'=>$a->id,
-                    'text'=>'編輯',
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'btn_color' => 'btn-info',
+                    'action' => 'edit',
+                    'id' => $a->id,
+                    'text' => '編輯',
                 ],
             ];
 
-            $rows[]=$tmp;
+            $rows[] = $tmp;
         }
 
         // dd($rows);
 
-        $this->view['header']='管理者管理';
-        $this->view['module']='Admin';
-        $this->view['cols']=$cols;
-        $this->view['rows']=$rows;
+        $this->view['header'] = '管理者管理';
+        $this->view['module'] = 'Admin';
+        $this->view['cols'] = $cols;
+        $this->view['rows'] = $rows;
         return view('backend.module', $this->view);
-        
     }
 
     /**
@@ -103,11 +136,11 @@ class AdminController extends HomeController
      */
     public function store(Request $request)
     {
-            $admin = new Admin;
+        $admin = new Admin;
 
-            $admin->acc = $request->input('acc');
-            $admin->pw = $request->input('pw');
-            $admin->save();
+        $admin->acc = $request->input('acc');
+        $admin->pw = Hash::make($request->input('pw'));
+        $admin->save();
 
         return redirect('/admin/admin');
     }
@@ -168,7 +201,7 @@ class AdminController extends HomeController
         $admin = Admin::find($id);
 
         if ($admin->pw != $request->input('pw')) {
-            $admin->pw = $request->input('pw');
+            $admin->pw = Hash::make($request->input('pw'));
         }
 
         $admin->save();
@@ -187,6 +220,4 @@ class AdminController extends HomeController
         // 後端僅做資料處理，完成後的畫面由前端自行處理
         Admin::destroy($id);
     }
-
-
 }
