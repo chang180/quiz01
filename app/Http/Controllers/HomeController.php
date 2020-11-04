@@ -11,6 +11,7 @@ use App\Models\Ad;
 use App\Models\Mvim;
 use App\Models\News;
 use Auth;
+// use App\Models\Total;
 
 class HomeController extends Controller
 {
@@ -24,12 +25,14 @@ class HomeController extends Controller
         //
         $this->sideBar();
 
-      
+       
+        
+
+
         $mvims = Mvim::where("sh", 1)->get();
         $news = News::where("sh", 1)->get()->filter(function ($val, $idx) {
             if ($idx > 4) {
                 $this->view['more'] = '/news';
-
             } else {
                 return $val;
             }
@@ -37,7 +40,7 @@ class HomeController extends Controller
 
 
         // dd($news,$this->view);
-       
+
         $this->view['mvims'] = $mvims;
         $this->view['news'] = $news;
 
@@ -62,9 +65,11 @@ class HomeController extends Controller
             $menus[$key] = $menu;
         }
 
-if(Auth::user()){
-    $this->view['user']=Auth::user();
-}
+        if (Auth::user()) {
+            $this->view['user'] = Auth::user();
+        }
+
+
 
         $this->view['ads'] = $ads;
         $this->view['menus'] = $menus;
