@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Title;
+use Illuminate\Support\Facades\Storage;
 
 class TitleController extends Controller
 {
@@ -111,6 +112,7 @@ class TitleController extends Controller
         if ($request->hasFile('img') && $request->file('img')->isValid()) {
             $title = new Title;
             $request->file('img')->storeAs('public', $request->file('img')->getClientOriginalName());
+            // Storage::disk('ftp')->put("/storage/".$request->file('img')->getClientOriginalName(),file_get_contents($request->file('img')));
 
             $title->img = $request->file('img')->getClientOriginalName();
             $title->text = $request->input('text');
