@@ -6,14 +6,14 @@
         @isset($menus)
             <ul class="list-group h-75">
                 @foreach ($menus as $menu)
-                    <li class="list-group list-group-item-action py-1 bg-warning menu">
+                    <li class="list-group-item list-group-action py-1 bg-warning menu">
                         <a href="{{ $menu->href }}">
                             {{ $menu->name }}
                         </a>
                         @isset($menu->subs)
                             <ul class="list-group offset-4 w-75 subs d-none position-absolute">
                                 @foreach ($menu->subs as $sub)
-                                    <li class="list-group-item list-group-item-action bg-success"><a class="text-white"
+                                    <li class="list-group-item list-group-action py-1 bg-success"><a class="text-white"
                                             href="{{ $sub->href }}">{{ $sub->name }}</a></li>
                                 @endforeach
                             </ul>
@@ -32,10 +32,10 @@
     </div>
     <div class="right col-3">
         @auth
-        <a href="/admin" class="btn btn-success py-3 w-100 my-2">返回管理 ({{ $user->acc }}) </a>
+            <a href="/admin" class="btn btn-success py-3 w-100 my-2">返回管理 ({{ $user->acc }}) </a>
         @endauth
         @guest
-        <a href="/login" class="btn btn-primary py-3 w-100 my-2">管理登入</a>
+            <a href="/login" class="btn btn-primary py-3 w-100 my-2">管理登入</a>
         @endguest
         <div class="text-center py-2 border-bottom my-1">校園映像</div>
         <div class="up"></div>
@@ -73,7 +73,7 @@
                 if (idx >= p && idx <= p + 2) {
                     $(dom).show()
                 }
-            }) 
+            })
 
         })
 
@@ -88,23 +88,23 @@
         );
 
         $(".mv").eq(0).removeClass('d-none')
-        let mvNum=$(".mv").length
-let now=0
+        let mvNum = $(".mv").length
+        let now = 0
 
         setInterval(() => {
             ++now
             $(".mv").addClass('d-none')
-            now=now % mvNum
+            now = now % mvNum
             $(".mv").eq(now).removeClass('d-none')
 
         }, 3000);
 
         $(".news").hover(
-            function(){
-$(this).children('div').removeClass('d-none')
-},
-function(){
-    $(this).children('div').addClass('d-none')
+            function() {
+                $(this).children('div').removeClass('d-none')
+            },
+            function() {
+                $(this).children('div').addClass('d-none')
 
             }
         )

@@ -17,7 +17,7 @@
     <ul class="list-group">
         @foreach($news as $key=>$new)
         <li class="list-group-item list-group-item-action p-1 news">{{$key+1}} .{{ mb_substr($new->text,0,20,'utf8') }}... 
-        <div class="border border-success text-white rounded-shadow bg-secondary offset-3 d-none position-absolute w-100 text-5"> <pre class="text-white">{{$new->text}}</pre> </div>
+        <div class="border border-dark rounded-shadow text-white offset-4 w-75 bg-secondary text-5 position-absolute d-none"> <pre class="text-white">{{$new->text}}</pre> </div>
         </li>
         @endforeach
     </ul>
