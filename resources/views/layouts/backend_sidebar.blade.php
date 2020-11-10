@@ -2,7 +2,7 @@
     <div class="list-group">
         <div class="border-bottom my-2 p-1 text-center">後台管理</div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
-                href="/admin/title">標題圖片管理</a></div>
+        href="/admin/title">標題圖片管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
                 href="/admin/ad">動態文字廣告管理</a></div>
         <div class="list-group list-group-item list-group-item-action px-0"><a class="d=block"
