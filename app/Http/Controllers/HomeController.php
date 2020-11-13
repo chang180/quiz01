@@ -63,6 +63,7 @@ class HomeController extends Controller
             $menu->subs = $subs;
             // dd($menu);
             $menus[$key] = $menu;
+            $menu->show=false;
         }
 
         if (Auth::user()) {

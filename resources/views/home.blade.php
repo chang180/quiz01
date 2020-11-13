@@ -1,17 +1,17 @@
 @extends("layouts.layout")
 
 @section('main')
-    <div class="menu col-3">
+    <div class="col-3">
         <div class="text-center py-2 border-bottom my-1">主選單區</div>
-        @isset($menus)
-            <ul class="list-group h-75">
+        {{-- @isset($menus)
+            <ul class="list-group h-50">
                 @foreach ($menus as $menu)
                     <li class="list-group-item list-group-action py-1 bg-warning menu">
                         <a href="{{ $menu->href }}">
                             {{ $menu->name }}
                         </a>
                         @isset($menu->subs)
-                            <ul class="list-group offset-4 w-75 subs d-none position-absolute">
+                            <ul class="list-group offset-4 w-75 subs d-none position-absolute" style="z-index:1">
                                 @foreach ($menu->subs as $sub)
                                     <li class="list-group-item list-group-action py-1 bg-success"><a class="text-white"
                                             href="{{ $sub->href }}">{{ $sub->name }}</a></li>
@@ -21,13 +21,25 @@
                     </li>
                 @endforeach
             </ul>
-        @endisset
+        @endisset --}}
+
+        <ul class="list-group h-75">
+            <li class="list-group-item list-group-action py-1 bg-warning menu" v-for="menu in menus" @mouseover='menu.show=true' @mouseleave="menu.show=false"><a
+                    :href="menu.href">@{{ menu . name }}</a>
+                <ul v-if="menu.subs.length>0" v-show="menu.show"class="list-group offset-4 w-75 subs position-absolute"
+                    style="z-index:1">
+                    <li v-for="sub of menu.subs" class="list-group-item list-group-action py-1 bg-success"><a class="text-white"
+                    href="sub.href">@{{ sub.name }}</a></li>
+                </ul>
+            </li>
+        </ul>
+
         <div class="viewer mt-5 text-center">
-            進站總人數：{{ $total }}
+            進站總人數：@{{ total }}
         </div>
     </div>
     <div class="main col-6">
-        <marquee>{{ $ads }}</marquee>
+        <marquee>@{{ adstr }}</marquee>
         @yield('center')
     </div>
     <div class="right col-3">
@@ -51,8 +63,34 @@
 
 @section('script')
     <script>
+        const app = {
+            data() {
+                const adstr = '{{ $ads }}'
+                const bottom = '{{ $bottom }}'
+                const titleImg = '/storage/{{ $title->img }}'
+                const title = '{{ $title->text }}'
+                const total = '{{ $total }}'
+
+
+                const menus = JSON.parse('{!!  $menus !!}')
+                return {
+                    adstr,
+                    titleImg,
+                    title,
+                    bottom,
+                    total,
+                    menus
+                }
+            }
+        }
+
+        Vue.createApp(app).mount('#app')
+
         let num = $(".img").length;
         let p = 0;
+
+
+
         $(".img").each((idx, dom) => {
             if (idx < 3) {
                 $(dom).show()
@@ -77,15 +115,14 @@
 
         })
 
-        $('.menu').hover(
-            function() {
-                // $(this).children('.subs').show();
-                $(this).children('.subs').removeClass('d-none');
-            },
-            function() {
-                $(this).children('.subs').addClass('d-none');
-            }
-        );
+        // $('.menu').hover(
+        //     function() {
+        //         $(this).children('.subs').removeClass('d-none');
+        //     },
+        //     function() {
+        //         $(this).children('.subs').addClass('d-none');
+        //     }
+        // );
 
         $(".mv").eq(0).removeClass('d-none')
         let mvNum = $(".mv").length
