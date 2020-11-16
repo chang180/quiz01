@@ -51,7 +51,11 @@ class HomeController extends Controller
     {
         $ads = implode("　　", AD::where("sh", 1)->get()->pluck('text')->all());
         $menus = Menu::where('sh', 1)->get();
-        $images = Image::where('sh', 1)->get();
+        $images = Image::select('id','img')->where('sh', 1)->get()->map(function($val,$idx){
+            $val->img=asset("storage/".$val->img);
+            $val->show=false;
+            return $val;
+                    });
 
 
 

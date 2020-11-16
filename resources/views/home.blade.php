@@ -4,32 +4,32 @@
     <div class="col-3">
         <div class="text-center py-2 border-bottom my-1">主選單區</div>
         {{-- @isset($menus)
-            <ul class="list-group h-50">
-                @foreach ($menus as $menu)
-                    <li class="list-group-item list-group-action py-1 bg-warning menu">
-                        <a href="{{ $menu->href }}">
-                            {{ $menu->name }}
-                        </a>
-                        @isset($menu->subs)
-                            <ul class="list-group offset-4 w-75 subs d-none position-absolute" style="z-index:1">
-                                @foreach ($menu->subs as $sub)
-                                    <li class="list-group-item list-group-action py-1 bg-success"><a class="text-white"
-                                            href="{{ $sub->href }}">{{ $sub->name }}</a></li>
-                                @endforeach
-                            </ul>
-                        @endisset
-                    </li>
-                @endforeach
-            </ul>
+        <ul class="list-group h-50">
+            @foreach ($menus as $menu)
+                <li class="list-group-item list-group-action py-1 bg-warning menu">
+                    <a href="{{ $menu->href }}">
+                        {{ $menu->name }}
+                    </a>
+                    @isset($menu->subs)
+                    <ul class="list-group offset-4 w-75 subs d-none position-absolute" style="z-index:1">
+                        @foreach ($menu->subs as $sub)
+                            <li class="list-group-item list-group-action py-1 bg-success"><a class="text-white"
+                                    href="{{ $sub->href }}">{{ $sub->name }}</a></li>
+                        @endforeach
+                    </ul>
+                    @endisset
+                </li>
+            @endforeach
+        </ul>
         @endisset --}}
 
         <ul class="list-group h-75">
-            <li class="list-group-item list-group-action py-1 bg-warning menu" v-for="menu in menus" @mouseover='menu.show=true' @mouseleave="menu.show=false"><a
-                    :href="menu.href">@{{ menu . name }}</a>
-                <ul v-if="menu.subs.length>0" v-show="menu.show"class="list-group offset-4 w-75 subs position-absolute"
+            <li class="list-group-item list-group-action py-1 bg-warning menu" v-for="menu in menus"
+                @mouseover='menu.show=true' @mouseleave="menu.show=false"><a :href="menu.href">@{{ menu . name }}</a>
+                <ul v-if="menu.subs.length>0" v-show="menu.show" class="list-group offset-4 w-75 subs position-absolute"
                     style="z-index:1">
-                    <li v-for="sub of menu.subs" class="list-group-item list-group-action py-1 bg-success"><a class="text-white"
-                    href="sub.href">@{{ sub.name }}</a></li>
+                    <li v-for="sub of menu.subs" class="list-group-item list-group-action py-1 bg-success"><a
+                            class="text-white" :href="sub.href">@{{ sub . name }}</a></li>
                 </ul>
             </li>
         </ul>
@@ -38,10 +38,12 @@
             進站總人數：@{{ total }}
         </div>
     </div>
+
     <div class="main col-6">
         <marquee>@{{ adstr }}</marquee>
         @yield('center')
     </div>
+    
     <div class="right col-3">
         @auth
             <a href="/admin" class="btn btn-success py-3 w-100 my-2">返回管理 ({{ $user->acc }}) </a>
@@ -49,14 +51,15 @@
         @guest
             <a href="/login" class="btn btn-primary py-3 w-100 my-2">管理登入</a>
         @endguest
-        <div class="text-center py-2 border-bottom my-1">校園映像</div>
-        <div class="up"></div>
-        @isset($images)
-            @foreach ($images as $img)
-                <div class="img"><img src="{{ asset('storage/' . $img->img) }}" alt=""></div>
-            @endforeach
-        @endisset
-        <div class="down"></div>
+        <div class="text-center py-2 border-bottom my-1">校園映像區</div>
+        {{-- @isset($images)
+        @foreach ($images as $img)
+            <div class="img"><img src="{{ asset('storage/' . $img->img) }}" alt=""></div>
+        @endforeach
+        @endisset --}}
+        <div class="up" @click="switchImg('up')"></div>
+        <div class="img" v-for="img of images" v-show="img.show"><img :src="img.img" class="mx-auto"></div>
+        <div class="down" @click="switchImg('down')"></div>
 
     </div>
 @endsection
@@ -73,47 +76,76 @@
 
 
                 const menus = JSON.parse('{!!  $menus !!}')
+                const images = JSON.parse('{!!  $images !!}')
+                const currentPage = 0
                 return {
                     adstr,
                     titleImg,
                     title,
                     bottom,
                     total,
-                    menus
+                    menus,
+                    images,
+                    currentPage
+                }
+            },
+            mounted() {
+                this.switchImg('up')
+            },
+            methods: {
+                switchImg(type) {
+                    switch (type) {
+                        case 'up':
+                            this.currentPage = (this.currentPage > 0) ? --this.currentPage : this.currentPage
+                            break
+                        case 'down':
+                            this.currentPage = (this.currentPage < this.images.length - 3) ? ++this.currentPage : this
+                                .currentPage
+                            break
+                    }
+                    this.images.map((img, idx) => {
+                        if (idx >= this.currentPage && idx <= this.currentPage + 2) {
+                            img.show = true
+                        } else {
+                            img.show = false
+                        }
+                        // console.log(this.currentPage,this.images.length)
+                        return img
+                    })
                 }
             }
         }
 
         Vue.createApp(app).mount('#app')
 
-        let num = $(".img").length;
-        let p = 0;
+        // let num = $(".img").length;
+        // let p = 0;
 
 
 
-        $(".img").each((idx, dom) => {
-            if (idx < 3) {
-                $(dom).show()
-            }
-        })
+        // $(".img").each((idx, dom) => {
+        //     if (idx < 3) {
+        //         $(dom).show()
+        //     }
+        // })
 
-        $(".up,.down").on("click", function() {
-            $(".img").hide()
-            switch ($(this).attr('class')) {
-                case 'up':
-                    p = (p > 0) ? --p : p;
-                    break;
-                case 'down':
-                    p = (p < num - 3) ? ++p : p;
-                    break;
-            }
-            $(".img").each((idx, dom) => {
-                if (idx >= p && idx <= p + 2) {
-                    $(dom).show()
-                }
-            })
+        // $(".up,.down").on("click", function() {
+        //     $(".img").hide()
+        //     switch ($(this).attr('class')) {
+        //         case 'up':
+        //             p = (p > 0) ? --p : p;
+        //             break;
+        //         case 'down':
+        //             p = (p < num - 3) ? ++p : p;
+        //             break;
+        //     }
+        //     $(".img").each((idx, dom) => {
+        //         if (idx >= p && idx <= p + 2) {
+        //             $(dom).show()
+        //         }
+        //     })
 
-        })
+        // })
 
         // $('.menu').hover(
         //     function() {
