@@ -43,7 +43,7 @@
         <marquee>@{{ adstr }}</marquee>
         @yield('center')
     </div>
-    
+
     <div class="right col-3">
         @auth
             <a href="/admin" class="btn btn-success py-3 w-100 my-2">返回管理 ({{ $user->acc }}) </a>
@@ -74,10 +74,14 @@
                 const title = '{{ $title->text }}'
                 const total = '{{ $total }}'
 
-
                 const menus = JSON.parse('{!!  $menus !!}')
                 const images = JSON.parse('{!!  $images !!}')
                 const currentPage = 0
+                const mvims = JSON.parse('{!!  $mvims !!}')
+                const newss = JSON.parse('{!!  $news !!}')
+                @isset($more)
+                    const more = '{{ $more }}'
+                @endisset
                 return {
                     adstr,
                     titleImg,
@@ -86,11 +90,30 @@
                     total,
                     menus,
                     images,
-                    currentPage
+                    currentPage,
+                    mvims,
+                    newss,
+                    @isset($more)
+                        more
+                    @endisset
                 }
             },
             mounted() {
                 this.switchImg('up')
+                let m = 1
+                setInterval(() => {
+
+                    this.mvims.map((mv, idx) => {
+                        // if (idx == m) {
+                        //     mv.show = true
+                        // } else {
+                        //     mv.show = false
+                        // }
+                        mv.show = (idx == m) ? true : false
+                        return mv
+                    })
+                    m = (m + 1) % this.mvims.length
+                }, 3000)
             },
             methods: {
                 switchImg(type) {
@@ -117,6 +140,9 @@
         }
 
         Vue.createApp(app).mount('#app')
+
+
+        //原jQuery寫法，可完全用Vue的方式取代
 
         // let num = $(".img").length;
         // let p = 0;
@@ -156,27 +182,27 @@
         //     }
         // );
 
-        $(".mv").eq(0).removeClass('d-none')
-        let mvNum = $(".mv").length
-        let now = 0
+        // $(".mv").eq(0).removeClass('d-none')
+        // let mvNum = $(".mv").length
+        // let now = 0
 
-        setInterval(() => {
-            ++now
-            $(".mv").addClass('d-none')
-            now = now % mvNum
-            $(".mv").eq(now).removeClass('d-none')
+        // setInterval(() => {
+        //     ++now
+        //     $(".mv").addClass('d-none')
+        //     now = now % mvNum
+        //     $(".mv").eq(now).removeClass('d-none')
 
-        }, 3000);
+        // }, 3000);
 
-        $(".news").hover(
-            function() {
-                $(this).children('div').removeClass('d-none')
-            },
-            function() {
-                $(this).children('div').addClass('d-none')
+        // $(".news").hover(
+        //     function() {
+        //         $(this).children('div').removeClass('d-none')
+        //     },
+        //     function() {
+        //         $(this).children('div').addClass('d-none')
 
-            }
-        )
+        //     }
+        // )
 
     </script>
 @endsection

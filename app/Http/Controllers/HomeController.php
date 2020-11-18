@@ -25,21 +25,28 @@ class HomeController extends Controller
         //
         $this->sideBar();
 
-       
-        
 
 
-        $mvims = Mvim::where("sh", 1)->get();
-        $news = News::where("sh", 1)->get()->filter(function ($val, $idx) {
+
+
+        $mvims = Mvim::select('id', 'img')->where("sh", 1)->get()->map(function ($val, $idx) {
+            $val->show = ($idx == 0) ? true : false;
+            $val->img = asset("storage/" . $val->img);
+            return $val;
+        });
+        $news = News::select("id", "text")->where("sh", 1)->get()->filter(function ($val, $idx) {
             if ($idx > 4) {
                 $this->view['more'] = '/news';
             } else {
+                $val->short = mb_substr(str_replace("\r\n", " ", $val->text), 0, 25, 'utf8') . "...";
+                $val->text = str_replace("\r\n", " ", nl2br($val->text));
+                $val->show=false;
                 return $val;
             }
         });
 
 
-        // dd($news,$this->view);
+        // dd($news);
 
         $this->view['mvims'] = $mvims;
         $this->view['news'] = $news;
@@ -51,11 +58,11 @@ class HomeController extends Controller
     {
         $ads = implode("　　", AD::where("sh", 1)->get()->pluck('text')->all());
         $menus = Menu::where('sh', 1)->get();
-        $images = Image::select('id','img')->where('sh', 1)->get()->map(function($val,$idx){
-            $val->img=asset("storage/".$val->img);
-            $val->show=false;
+        $images = Image::select('id', 'img')->where('sh', 1)->get()->map(function ($val, $idx) {
+            $val->img = asset("storage/" . $val->img);
+            $val->show = false;
             return $val;
-                    });
+        });
 
 
 
@@ -67,7 +74,7 @@ class HomeController extends Controller
             $menu->subs = $subs;
             // dd($menu);
             $menus[$key] = $menu;
-            $menu->show=false;
+            $menu->show = false;
         }
 
         if (Auth::user()) {
