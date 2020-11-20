@@ -15,21 +15,20 @@
 </head>
 
 <body id="app">
-    
-        <div class="container">
-            <div class="header">
-                <a href="/" :title="site.title.text"><img :src="site.title.img"
-                        title="{{ $title->text }}" class="w-100"></a>
-            </div>
-            <div class="main d-flex" style="height:568px">
-                @yield("main")
-            </div>
-            <div class="footer w-100">
-                <div class="text-center" style="height:100px;line-height:100px;background:yellow">@{{ site.bottom }}</div>
-            </div>
+
+    <div class="container">
+        <div class="header">
+            <a href="/" :title="site.title.text"><img :src="site.title.img" class="w-100"></a>
+        </div>
+        <div class="main d-flex" style="height:568px">
+            @yield("main")
+        </div>
+        <div class="footer w-100">
+            <div class="text-center" style="height:100px;line-height:100px;background:yellow">@{{ site.bottom }}</div>
+        </div>
         <div id="modal"></div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
@@ -38,7 +37,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
-      
+
 </body>
 
 </html>

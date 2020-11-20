@@ -1,59 +1,53 @@
 @extends('home')
 
-@section("center")
-<div class="mvims h-50">
-{{-- @foreach($mvims as $mv) --}}
+@section('center')
+    <div class="mvims h-50">
+        {{-- @foreach ($mvims as $mv)
+            --}}
 
-<div v-for="mv of mvims" v-show="mv.show" class="mv text-center">
-    <img :src="mv.img" class="mx-auto">
-</div>
-{{-- @endforeach --}}
-</div>
-<div class="h-25">
-    <div class="text-center py-2 border-bottom my-1">最新消息區
-{{-- @isset($more) --}}
-    <a class="float-right" :href="newss.more.href" v-if="newss.more.show">More...</a>
-{{-- @endisset --}}
+            <div v-for="mv of mvims" v-show="mv.show" class="mv text-center">
+                <img :src="mv.img" class="mx-auto">
+            </div>
+            {{--
+        @endforeach --}}
     </div>
-    <ul class="list-group">
-        {{-- @foreach($news as $key=>$new) --}}
-        <li class="list-group-item list-group-item-action p-1 news" v-for="news of newss.data" @mouseover="news.show=true" @mouseleave="news.show=false">@{{ news.short }}... 
-        <div class="border border-dark rounded-shadow text-white offset-4 w-75 bg-secondary text-5 position-absolute" v-show="news.show" v-html="news.text"></div>
-        </li>
-        {{-- @endforeach --}}
-    </ul>
-</div>
+    <div class="h-25">
+        <div class="text-center py-2 border-bottom my-1">最新消息區
+            {{-- @isset($more) --}}
+            <a class="float-right" :href="newss.more.href" v-if="newss.more.show">More...</a>
+            {{-- @endisset --}}
+        </div>
+        <ul class="list-group">
+            {{-- @foreach ($news as $key => $new)
+                --}}
+                <li class="list-group-item list-group-item-action p-1 news" v-for="news of newss.data"
+                    @mouseover="news.show=true" @mouseleave="news.show=false">@{{ news . short }}...
+                    <div class="border border-dark rounded-shadow text-white offset-4 w-75 bg-secondary text-5 position-absolute"
+                        v-show="news.show" v-html="news.text"></div>
+                </li>
+                {{--
+            @endforeach --}}
+        </ul>
+    </div>
 @endsection
 
 @section('script')
     <script>
         const app = {
             data() {
-                // 所有變數全部包進site裏頭，方便前端取用
-                // const adstr = '{{ $ads }}'
-                // const bottom = '{{ $bottom }}'
-                // const titleImg = '/storage/{{ $title->img }}'
-                // const title = '{{ $title->text }}'
-                // const total = '{{ $total }}'
-const site=JSON.parse('{!! json_encode($site) !!}')
-                
+                const site = JSON.parse('{!!  json_encode($site) !!}')
+
                 const menus = JSON.parse('{!!  $menus !!}')
                 const images = JSON.parse('{!!  json_encode($images) !!}')
                 // const currentPage = 0
                 const mvims = JSON.parse('{!!  $mvims !!}')
                 const newss = JSON.parse('{!!  json_encode($news) !!}')
-                // @isset($more)
-                //     const more = '{{ $more }}'
-                // @endisset
                 return {
                     menus,
                     images,
                     mvims,
                     newss,
-                    site
-                    // @isset($more)
-                    //     more
-                    // @endisset
+                    site,
                 }
             },
             mounted() {
@@ -75,15 +69,15 @@ const site=JSON.parse('{!! json_encode($site) !!}')
             },
             methods: {
                 switchImg(type) {
-                    let imgs=this.images.data
-                    let page=this.images.page
+                    let imgs = this.images.data
+                    let page = this.images.page
 
                     switch (type) {
                         case 'up':
-                            page = (page > 0) ? page-1 : page
+                            page = (page > 0) ? page - 1 : page
                             break
                         case 'down':
-                            page = (page < imgs.length - 3) ? page+1 : page
+                            page = (page < imgs.length - 3) ? page + 1 : page
                             break
                     }
                     imgs.map((img, idx) => {
@@ -95,8 +89,8 @@ const site=JSON.parse('{!! json_encode($site) !!}')
                         // console.log(page,this.images.length)
                         return img
                     })
-                    this.images.data=imgs
-                    this.images.page=page
+                    this.images.data = imgs
+                    this.images.page = page
                 }
             }
         }

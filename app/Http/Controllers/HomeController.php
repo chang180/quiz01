@@ -52,6 +52,7 @@ class HomeController extends Controller
         $this->view['mvims'] = $mvims;
         $this->view['news']['data'] = $news;
 
+
         return view('main', $this->view);
     }
 
