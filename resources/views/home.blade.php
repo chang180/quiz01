@@ -35,12 +35,12 @@
         </ul>
 
         <div class="viewer mt-5 text-center">
-            進站總人數：@{{ total }}
+            進站總人數：@{{ site.total }}
         </div>
     </div>
 
     <div class="main col-6">
-        <marquee>@{{ adstr }}</marquee>
+        <marquee>@{{ site.ads }}</marquee>
         @yield('center')
     </div>
 
@@ -58,151 +58,10 @@
         @endforeach
         @endisset --}}
         <div class="up" @click="switchImg('up')"></div>
-        <div class="img" v-for="img of images" v-show="img.show"><img :src="img.img" class="mx-auto"></div>
+        <div class="img" v-for="img of images.data" v-show="img.show"><img :src="img.img" class="mx-auto"></div>
         <div class="down" @click="switchImg('down')"></div>
 
     </div>
 @endsection
 
-@section('script')
-    <script>
-        const app = {
-            data() {
-                const adstr = '{{ $ads }}'
-                const bottom = '{{ $bottom }}'
-                const titleImg = '/storage/{{ $title->img }}'
-                const title = '{{ $title->text }}'
-                const total = '{{ $total }}'
 
-                const menus = JSON.parse('{!!  $menus !!}')
-                const images = JSON.parse('{!!  $images !!}')
-                const currentPage = 0
-                const mvims = JSON.parse('{!!  $mvims !!}')
-                const newss = JSON.parse('{!!  $news !!}')
-                @isset($more)
-                    const more = '{{ $more }}'
-                @endisset
-                return {
-                    adstr,
-                    titleImg,
-                    title,
-                    bottom,
-                    total,
-                    menus,
-                    images,
-                    currentPage,
-                    mvims,
-                    newss,
-                    @isset($more)
-                        more
-                    @endisset
-                }
-            },
-            mounted() {
-                this.switchImg('up')
-                let m = 1
-                setInterval(() => {
-
-                    this.mvims.map((mv, idx) => {
-                        // if (idx == m) {
-                        //     mv.show = true
-                        // } else {
-                        //     mv.show = false
-                        // }
-                        mv.show = (idx == m) ? true : false
-                        return mv
-                    })
-                    m = (m + 1) % this.mvims.length
-                }, 3000)
-            },
-            methods: {
-                switchImg(type) {
-                    switch (type) {
-                        case 'up':
-                            this.currentPage = (this.currentPage > 0) ? --this.currentPage : this.currentPage
-                            break
-                        case 'down':
-                            this.currentPage = (this.currentPage < this.images.length - 3) ? ++this.currentPage : this
-                                .currentPage
-                            break
-                    }
-                    this.images.map((img, idx) => {
-                        if (idx >= this.currentPage && idx <= this.currentPage + 2) {
-                            img.show = true
-                        } else {
-                            img.show = false
-                        }
-                        // console.log(this.currentPage,this.images.length)
-                        return img
-                    })
-                }
-            }
-        }
-
-        Vue.createApp(app).mount('#app')
-
-
-        //原jQuery寫法，可完全用Vue的方式取代
-
-        // let num = $(".img").length;
-        // let p = 0;
-
-
-
-        // $(".img").each((idx, dom) => {
-        //     if (idx < 3) {
-        //         $(dom).show()
-        //     }
-        // })
-
-        // $(".up,.down").on("click", function() {
-        //     $(".img").hide()
-        //     switch ($(this).attr('class')) {
-        //         case 'up':
-        //             p = (p > 0) ? --p : p;
-        //             break;
-        //         case 'down':
-        //             p = (p < num - 3) ? ++p : p;
-        //             break;
-        //     }
-        //     $(".img").each((idx, dom) => {
-        //         if (idx >= p && idx <= p + 2) {
-        //             $(dom).show()
-        //         }
-        //     })
-
-        // })
-
-        // $('.menu').hover(
-        //     function() {
-        //         $(this).children('.subs').removeClass('d-none');
-        //     },
-        //     function() {
-        //         $(this).children('.subs').addClass('d-none');
-        //     }
-        // );
-
-        // $(".mv").eq(0).removeClass('d-none')
-        // let mvNum = $(".mv").length
-        // let now = 0
-
-        // setInterval(() => {
-        //     ++now
-        //     $(".mv").addClass('d-none')
-        //     now = now % mvNum
-        //     $(".mv").eq(now).removeClass('d-none')
-
-        // }, 3000);
-
-        // $(".news").hover(
-        //     function() {
-        //         $(this).children('div').removeClass('d-none')
-        //     },
-        //     function() {
-        //         $(this).children('div').addClass('d-none')
-
-        //     }
-        // )
-
-    </script>
-@endsection

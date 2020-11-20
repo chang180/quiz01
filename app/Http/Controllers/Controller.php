@@ -19,8 +19,8 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->view['title'] = Title::where("sh", 1)->first();
-        
+        $this->view['title'] = Title::select("id","img","text")->where("sh", 1)->first();
+        $this->view['title']->img=asset("storage/".$this->view['title']->img);
         //進站總人數
         if(!session()->has('visitor')){
             $total=Total::first();

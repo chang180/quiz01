@@ -18,14 +18,14 @@
     
         <div class="container">
             <div class="header">
-                <a href="/" :title="title"><img :src="titleImg"
+                <a href="/" :title="site.title.text"><img :src="site.title.img"
                         title="{{ $title->text }}" class="w-100"></a>
             </div>
             <div class="main d-flex" style="height:568px">
                 @yield("main")
             </div>
             <div class="footer w-100">
-                <div class="text-center" style="height:100px;line-height:100px;background:yellow">@{{ bottom }}</div>
+                <div class="text-center" style="height:100px;line-height:100px;background:yellow">@{{ site.bottom }}</div>
             </div>
         <div id="modal"></div>
     </div>
