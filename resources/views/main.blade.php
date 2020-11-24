@@ -35,22 +35,31 @@
     <script>
         const app = {
             data() {
-                const site = JSON.parse('{!!  json_encode($site) !!}')
 
-                const menus = JSON.parse('{!!  $menus !!}')
-                const images = JSON.parse('{!!  json_encode($images) !!}')
-                // const currentPage = 0
-                const mvims = JSON.parse('{!!  $mvims !!}')
-                const newss = JSON.parse('{!!  json_encode($news) !!}')
                 return {
-                    menus,
-                    images,
-                    mvims,
-                    newss,
-                    site,
+                    menus: null,
+                    images: null,
+                    mvims: null,
+                    newss: null,
+                    site: null,
+                    show:false
                 }
             },
+            created() {
+                axios.get("/api")
+                    .then((res) => {
+                        console.log(res.data)
+                        this.site = res.data.site
+                        this.menus = res.data.menus
+                        this.images = res.data.images
+                        this.newss = res.data.news
+                        this.mvims = res.data.mvims
+                        this.show=true
+                    })
+            },
+
             mounted() {
+
                 this.switchImg('up')
                 let m = 1
                 setInterval(() => {

@@ -11,19 +11,20 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-<body id="app">
+<body>
 
-    <div class="container">
+    <div class="container"  id="app">
         <div class="header">
-            <a href="/" :title="site.title.text"><img :src="site.title.img" class="w-100"></a>
+            <a href="/" :title="site.title.text" v-if="show"><img :src="site.title.img" class="w-100"></a>
         </div>
-        <div class="main d-flex" style="height:568px">
+        <div class="main d-flex" style="height:568px" v-if="show">
             @yield("main")
         </div>
-        <div class="footer w-100">
+        <div class="footer w-100" v-if="show">
             <div class="text-center" style="height:100px;line-height:100px;background:yellow">@{{ site.bottom }}</div>
         </div>
         <div id="modal"></div>

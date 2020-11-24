@@ -20,9 +20,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function home()
     {
-        //
+
         $this->sideBar();
 
 
@@ -36,12 +37,12 @@ class HomeController extends Controller
         });
         $news = News::select("id", "text")->where("sh", 1)->get()->filter(function ($val, $idx) {
             if ($idx > 4) {
-                $this->view['news']['more'] = ['show'=>true,'href'=>'/news'];
+                $this->view['news']['more'] = ['show' => true, 'href' => '/news'];
             } else {
                 $val->short = mb_substr(str_replace("\r\n", " ", $val->text), 0, 25, 'utf8') . "...";
                 $val->text = str_replace("\r\n", " ", nl2br($val->text));
                 $val->show = false;
-                $this->view['news']['more'] = ['show'=>false];
+                $this->view['news']['more'] = ['show' => false];
                 return $val;
             }
         });
@@ -52,8 +53,43 @@ class HomeController extends Controller
         $this->view['mvims'] = $mvims;
         $this->view['news']['data'] = $news;
 
+        return $this->view;
+    }
 
-        return view('main', $this->view);
+    public function index()
+    {
+        //
+        // $this->sideBar();
+
+
+
+
+
+        // $mvims = Mvim::select('id', 'img')->where("sh", 1)->get()->map(function ($val, $idx) {
+        //     $val->show = ($idx == 0) ? true : false;
+        //     $val->img = asset("storage/" . $val->img);
+        //     return $val;
+        // });
+        // $news = News::select("id", "text")->where("sh", 1)->get()->filter(function ($val, $idx) {
+        //     if ($idx > 4) {
+        //         $this->view['news']['more'] = ['show' => true, 'href' => '/news'];
+        //     } else {
+        //         $val->short = mb_substr(str_replace("\r\n", " ", $val->text), 0, 25, 'utf8') . "...";
+        //         $val->text = str_replace("\r\n", " ", nl2br($val->text));
+        //         $val->show = false;
+        //         $this->view['news']['more'] = ['show' => false];
+        //         return $val;
+        //     }
+        // });
+
+
+        // // dd($news);
+
+        // $this->view['mvims'] = $mvims;
+        // $this->view['news']['data'] = $news;
+
+
+        return view('main',$this->home());
     }
 
     protected function sideBar()
@@ -87,7 +123,7 @@ class HomeController extends Controller
 
         $this->view['ads'] = $ads;
         $this->view['menus'] = $menus;
-        $this->view['images'] = ['data'=>$images,'page'=>0];
+        $this->view['images'] = ['data' => $images, 'page' => 0];
         $this->view['site'] = [
             'ads' => $ads,
             'title' => $this->view['title'],
