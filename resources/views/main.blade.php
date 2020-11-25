@@ -37,9 +37,10 @@
             },
             created() {
 
+
             },
 
-            
+
             methods: {
                 switchImg(type) {
                     let imgs = this.images.data
@@ -67,8 +68,8 @@
                     this.images.page = page
                 }
             },
+
             mounted() {
-                // this.switchImg('up')
                 axios.get("/api")
                     .then((res) => {
                         // console.log(res.data)
@@ -93,6 +94,7 @@
         }
 
         Vue.createApp(app).mount('#app')
+
 
 
         //原jQuery寫法，可完全用Vue的方式取代
