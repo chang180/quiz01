@@ -27,9 +27,6 @@ class HomeController extends Controller
         $this->sideBar();
 
 
-
-
-
         $mvims = Mvim::select('id', 'img')->where("sh", 1)->get()->map(function ($val, $idx) {
             $val->show = ($idx == 0) ? true : false;
             $val->img = asset("storage/" . $val->img);
@@ -89,7 +86,7 @@ class HomeController extends Controller
         // $this->view['news']['data'] = $news;
 
 
-        return view('main',$this->home());
+        return view('main', $this->home());
     }
 
     protected function sideBar()
@@ -98,7 +95,13 @@ class HomeController extends Controller
         $menus = Menu::where('sh', 1)->get();
         $images = Image::select('id', 'img')->where('sh', 1)->get()->map(function ($val, $idx) {
             $val->img = asset("storage/" . $val->img);
-            $val->show = false;
+            if ($idx > 2) {
+                $val->show = false;
+            } else {
+                $val->show = true;
+            }
+
+            // dd($val);
             return $val;
         });
 
@@ -124,6 +127,7 @@ class HomeController extends Controller
         $this->view['ads'] = $ads;
         $this->view['menus'] = $menus;
         $this->view['images'] = ['data' => $images, 'page' => 0];
+        // dd($this->view['images']);
         $this->view['site'] = [
             'ads' => $ads,
             'title' => $this->view['title'],

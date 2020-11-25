@@ -2,31 +2,21 @@
 
 @section('center')
     <div class="mvims h-50">
-        {{-- @foreach ($mvims as $mv)
-            --}}
 
-            <div v-for="mv of mvims" v-show="mv.show" class="mv text-center">
-                <img :src="mv.img" class="mx-auto">
-            </div>
-            {{--
-        @endforeach --}}
+        <div v-for="mv of mvims" v-show="mv.show" class="mv text-center">
+            <img :src="mv.img" class="mx-auto">
+        </div>
     </div>
     <div class="h-25">
         <div class="text-center py-2 border-bottom my-1">最新消息區
-            {{-- @isset($more) --}}
             <a class="float-right" :href="newss.more.href" v-if="newss.more.show">More...</a>
-            {{-- @endisset --}}
         </div>
         <ul class="list-group">
-            {{-- @foreach ($news as $key => $new)
-                --}}
-                <li class="list-group-item list-group-item-action p-1 news" v-for="news of newss.data"
-                    @mouseover="news.show=true" @mouseleave="news.show=false">@{{ news . short }}...
-                    <div class="border border-dark rounded-shadow text-white offset-4 w-75 bg-secondary text-5 position-absolute"
-                        v-show="news.show" v-html="news.text"></div>
-                </li>
-                {{--
-            @endforeach --}}
+            <li class="list-group-item list-group-item-action p-1 news" v-for="news of newss.data"
+                @mouseover="news.show=true" @mouseleave="news.show=false">@{{ news . short }}...
+                <div class="border border-dark rounded-shadow text-white offset-4 w-75 bg-secondary text-5 position-absolute"
+                    v-show="news.show" v-html="news.text"></div>
+            </li>
         </ul>
     </div>
 @endsection
@@ -42,40 +32,14 @@
                     mvims: null,
                     newss: null,
                     site: null,
-                    show:false
+                    show: false
                 }
             },
             created() {
-                axios.get("/api")
-                    .then((res) => {
-                        console.log(res.data)
-                        this.site = res.data.site
-                        this.menus = res.data.menus
-                        this.images = res.data.images
-                        this.newss = res.data.news
-                        this.mvims = res.data.mvims
-                        this.show=true
-                    })
+
             },
 
-            mounted() {
-
-                this.switchImg('up')
-                let m = 1
-                setInterval(() => {
-
-                    this.mvims.map((mv, idx) => {
-                        // if (idx == m) {
-                        //     mv.show = true
-                        // } else {
-                        //     mv.show = false
-                        // }
-                        mv.show = (idx == m) ? true : false
-                        return mv
-                    })
-                    m = (m + 1) % this.mvims.length
-                }, 3000)
-            },
+            
             methods: {
                 switchImg(type) {
                     let imgs = this.images.data
@@ -89,6 +53,7 @@
                             page = (page < imgs.length - 3) ? page + 1 : page
                             break
                     }
+
                     imgs.map((img, idx) => {
                         if (idx >= page && idx <= page + 2) {
                             img.show = true
@@ -101,6 +66,29 @@
                     this.images.data = imgs
                     this.images.page = page
                 }
+            },
+            mounted() {
+                // this.switchImg('up')
+                axios.get("/api")
+                    .then((res) => {
+                        // console.log(res.data)
+                        this.site = res.data.site
+                        this.menus = res.data.menus
+                        this.images = res.data.images
+                        this.newss = res.data.news
+                        this.mvims = res.data.mvims
+                        this.show = true
+                    })
+
+                let m = 1
+                setInterval(() => {
+
+                    this.mvims.map((mv, idx) => {
+                        mv.show = (idx == m) ? true : false
+                        return mv
+                    })
+                    m = (m + 1) % this.mvims.length
+                }, 3000)
             }
         }
 
