@@ -40,7 +40,7 @@
     </div>
 
     <div class="main col-6">
-        <marquee_replace :text="site.ads"></marquee_replace>
+    <marquee_replace>@{{ site.ads}}</marquee_replace>
         @yield('center')
     </div>
 
