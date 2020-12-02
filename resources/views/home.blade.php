@@ -40,7 +40,7 @@
     </div>
 
     <div class="main col-6">
-    <marquee_replace>@{{ site.ads}}</marquee_replace>
+    <marquee-replace>@{{ site.ads }}</marquee-replace>
         @yield('center')
     </div>
 
@@ -51,15 +51,15 @@
         @guest
             <a href="/login" class="btn btn-primary py-3 w-100 my-2">管理登入</a>
         @endguest
-        <div class="text-center py-2 border-bottom my-1">校園映像區</div>
+        
         {{-- @isset($images)
         @foreach ($images as $img)
             <div class="img"><img src="{{ asset('storage/' . $img->img) }}" alt=""></div>
         @endforeach
         @endisset --}}
-        <div class="up" @click="switchImg('up')"></div>
-        <div class="img" v-for="img of images.data" v-show="img.show"><img :src="img.img" class="mx-auto"></div>
-        <div class="down" @click="switchImg('down')"></div>
+        {{-- <div class="up" @click="switchImg('up')"></div> --}}
+        <images :images="images"></images>
+        {{-- <div class="down" @click="switchImg('down')"></div> --}}
 
     </div>
 @endsection
