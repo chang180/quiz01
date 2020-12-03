@@ -14,4 +14,6 @@
         @endforeach
     </ul>
     {{ $news->links() }}
+
+    <news :news="news" route="news"></news>
 @endsection
