@@ -12,7 +12,7 @@ class NewsController extends HomeController
     {
         switch ($route) {
             case "index":
-                $news = News::select("id,", "text")->where("sh", 1)->get()->filter(function ($val, $idx) {
+                $news = News::select("id", "text")->where("sh", 1)->get()->filter(function ($val, $idx) {
                     if ($idx > 4) {
                         $this->view['news']['more'] = ['show' => true, 'href' => '/news'];
                     } else {
@@ -25,7 +25,7 @@ class NewsController extends HomeController
                 });
                 break;
             case "all":
-                $news = News::select("id,", "text")->where("sh", 1)->get()->filter(function ($val, $idx) {
+                $news = News::select("id", "text")->where("sh", 1)->get()->filter(function ($val, $idx) {
                     $val->short = mb_substr(str_replace("\r\n", " ", $val->text), 0, 25, 'utf8') . "...";
                     $val->text = str_replace("\r\n", " ", nl2br($val->text));
                     $val->show = false;
