@@ -18,7 +18,7 @@ const app = {
             menus: null,
             images: null,
             mvims: null,
-            news: null,
+            // news: null,
             site: null,
             show: false
         }
@@ -31,7 +31,7 @@ const app = {
                 this.site = res.data.site
                 this.menus = res.data.menus
                 this.images = res.data.images
-                this.news = res.data.news
+                    // this.news = res.data.news
                 this.mvims = res.data.mvims
                 this.show = true
             })
