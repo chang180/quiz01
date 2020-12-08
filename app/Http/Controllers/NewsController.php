@@ -37,6 +37,7 @@ class NewsController extends HomeController
                 break;
             }
             $news = ['news' => $news, 'more' => $more];
+            // dd($news);
         return $news;
     }
 
