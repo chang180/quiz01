@@ -2,9 +2,8 @@
     <div class="h-25">
         <div class="text-center py-2 border-bottom my-1">
             {{ title }}
-            <a class="float-right" :href="more.href" v-if="more.show"
-                >More...</a
-            >
+            <router-link class="float-right" :to="more.href" v-if="more.show"
+                >More...</router-link>
         </div>
         <ul class="list-group">
             <li
@@ -22,7 +21,7 @@
                 ></div>
             </li>
         </ul>
-        <div class="d-flex justify-center">
+        <div class="d-flex justify-center" v-if="paginate.show">
             <a
                 class="d-block m-1 p-1 border"
                 href="#"
@@ -52,7 +51,7 @@
     </div>
 </template>
 <script>
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref, reactive,watch } from "vue";
 export default {
     props: ["route"],
     setup(props) {
@@ -68,46 +67,58 @@ export default {
             next: 0,
             pages: 0,
             start: 1,
-        });
+            show:false,
+        })
 
         const page = (p) => {
-            paginate.prev = p - 1 > 0 ? p - 1 : 1;
-            paginate.next = p + 1 <= paginate.pages ? p + 1 : 0;
+            paginate.prev = (p - 1 > 0) ? p - 1 : 1
+            paginate.next = p + 1 <= paginate.pages ? p + 1 : 0
             paginate.start=(p-1)*paginate.div+1
 
             news.value = paginate.items.filter((item, idx) => {
                 if (idx + 1 >= paginate.start && idx + 1 <= p * paginate.div) {
-                    return item;
+                    return item
                 }
-            });
-        };
+            })
+        }
 
-        onMounted(() => {
+        const changeRoute=()=>{
             switch (props.route) {
                 case "index":
-                    title.value = "最新消息區";
-                    break;
+                    paginate.show=false
+                    title.value = "最新消息區"
+                    break
                 case "news":
-                    title.value = "更多最新消息";
-                    break;
+                    title.value = "更多最新消息"
+                    break
             }
             axios.get(`api/news/${props.route}`).then((res) => {
-                news.value = res.data.news;
-                more.value = res.data.more;
+                news.value = res.data.news 
+                more.value = res.data.more
                 if (res.data.news.length > 5) {
-                    paginate.total = res.data.news.length;
-                    paginate.pages = Math.ceil(paginate.total / paginate.div);
-                    paginate.items = res.data.news;
+                    paginate.total = res.data.news.length
+                    paginate.pages = Math.ceil(paginate.total / paginate.div)
+                    paginate.items = res.data.news
+                    paginate.links.length=0
                     for (let i = 1; i <= paginate.pages; i++) {
                         paginate.links.push(i);
                     }
                     // console.log(paginate)
-                    page(1);
+                    page(1)
+                    paginate.show=true
                 }
-            });
-        });
+            })
+        }
 
-        return { title, props, news, more, paginate, page };
+        watch(props,(old,newer)=>{
+            changeRoute()
+        })
+
+        onMounted(() => {
+            changeRoute()
+        })
+
+        return { title, props, news, more, paginate, page }
     },
-};
+}
 </script>
